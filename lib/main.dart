@@ -78,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Container(
+        color: Colors.black12,
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(

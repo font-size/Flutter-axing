@@ -45,19 +45,22 @@ class myLesson extends StatelessWidget {
   List<Widget> _listView(context){
     return lessonList.map((f)=>
     Container(
-      margin: EdgeInsets.only(top: 10.0), //容器外填充
-      constraints: BoxConstraints.tightFor(height: 60.0), //卡片大小
-      color: Colors.white,
+      margin: EdgeInsets.only(top: 20.0), //容器外填充
+      constraints: BoxConstraints.tightFor(height: 70.0), //卡片大小
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        color: Colors.white,
+      ),
       child: Row(
         children: [
           Container(
             margin: EdgeInsets.only(left: 10.0), //容器外填充
               child: FlutterLogo(
-                size: 30,
+                size: 40,
               )
             ),
             Container(
-              margin: EdgeInsets.only(left: 10.0), //容器外填充
+              margin: EdgeInsets.only(left: 20.0), //容器外填充
               child: Text(
                 f['name'],
                 style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold)),

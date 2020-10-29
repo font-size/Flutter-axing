@@ -10,7 +10,7 @@ class myApp extends StatelessWidget{
     // TODO: implement build
     return Container(
       margin: EdgeInsets.only(top: 30.0, right: 25.0, left: 25.0), //容器外填充
-      constraints: BoxConstraints.tightFor(height: 250.0), //卡片大小
+      constraints: BoxConstraints.tightFor(height: 200.0), //卡片大小
       decoration: BoxDecoration(//背景装饰
           gradient: RadialGradient( //背景径向渐变
               colors: [Colors.red, Colors.orange],
