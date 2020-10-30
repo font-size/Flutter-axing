@@ -1,6 +1,6 @@
 # axing
 
-my first flutter project here
+It is a flutter project here
 
 ## Getting Started
 
