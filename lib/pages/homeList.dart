@@ -57,7 +57,7 @@ class myLesson extends StatelessWidget {
                   //导航到新路由
                   Navigator.push( context,
                       MaterialPageRoute(builder: (context) {
-                        return channelDetail.myApp();
+                        return channelDetail.myApp(channelId: f['id'],);
                       }));
                 },
               //   // style: Theme.of(context).textTheme.headline5),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:axing/http/content.dart' as httptest;
 
 class myApp extends StatelessWidget{
   final String channelId;
@@ -17,21 +18,16 @@ class myApp extends StatelessWidget{
         title: 'channel',
         home: Scaffold(
             appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
               title: Text('栏目详情'),
             ),
             body: contentList(list: [
-              {'title' : '11111111111111111111111111111111111111111111111111', 'id': '1'},
-              {'title' : '222222', 'id': '2'},
-              {'title' : '33333', 'id': '3'},
-              {'title' : '33333', 'id': '3'},
-              {'title' : '33333', 'id': '3'},
-              {'title' : '33333', 'id': '3'},
-              {'title' : '33333', 'id': '3'},
-              {'title' : '33333', 'id': '3'},
-              {'title' : '2', 'id': '3'},
-              {'title' : '234', 'id': '3'},
-              {'title' : 'dsfsdds', 'id': '3'},
-              {'title' : '44444444', 'id': '4'}
+              {'title' : '11', 'id': '11'},
+              {'title' : '21', 'id': '21'},
+              {'title' : '22', 'id': '22'},
             ])
           // home: homeTop.myApp(),
         )
@@ -78,6 +74,100 @@ class channelBody extends StatelessWidget {
 
       ],
     );
+  }
+}
+
+class contentList extends StatelessWidget {
+  // final List iconList = [];
+  List list = [];
+  contentList({
+    Key key,
+    @required this.list,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    // 下划线widget预定义以供复用。
+    // return Scaffold(
+    //     body: SafeArea(
+    //       child: ListView(
+    //         shrinkWrap: true,
+    //         // physics: const AlwaysScrollableScrollPhysics(),
+    //         padding: const EdgeInsets.all(10.0),
+    //         children: _listView(context),
+    //       ),
+    //     ),
+    // );
+    return Container(
+      child: ListView(
+          shrinkWrap: true,
+          // physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.all(10.0),
+          children: [
+            channelDetailTop(
+                coverImg: 'https://pcdn.flutterchina.club/imgs/book.png',
+                title: '栏目名字',
+                descriptiton: 'descriptiton'
+            ),
+            for (final item in list)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
+                    alignment: Alignment.centerLeft, //卡片内文字居中
+                    height: 50.0,
+                    // margin: EdgeInsets.only(top:10.0, left: 10.0), //容器外填充
+                    child:  FlatButton(
+                      child: Text(
+                        item['title'],
+                        style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        print(item['id']);
+                        Navigator.push( context,
+                            MaterialPageRoute(builder: (context) {
+                              return httptest.HttpTestRoute(contentId: item['id'],);
+                            }));
+                      },
+                    )
+                ),
+              ),
+            // _listView(context),
+          ]
+      ),
+    );
+  }
+
+  List<Widget> _listView(context){
+    return list.map((f)=>
+        Wrap(
+          alignment: WrapAlignment.start,
+          // direction: Axis.horizontal,
+          children: [
+            // Container(
+            //   height: 30.0,
+            //   margin: EdgeInsets.only(top:10.0, left: 10.0), //容器外填充
+            //   child:  Text('${f['id']}',
+            //       style: TextStyle(color: Colors.black,fontSize: 16)),
+            // ),
+            Container(
+              child: Container(
+                  alignment: Alignment.centerLeft, //卡片内文字居中
+                  height: 50.0,
+                  // margin: EdgeInsets.only(top:10.0, left: 10.0), //容器外填充
+                  child:  FlatButton(
+                    child: Text(
+                      f['title'],
+                      style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: () {
+                      print(f['id']);
+                    },
+                  )
+              ),
+            ),
+            Divider(color: Colors.black26,)
+          ],
+        ),
+    ).toList();
   }
 }
 
@@ -149,92 +239,3 @@ class channelContentList extends StatelessWidget{
   }
 }
 
-class contentList extends StatelessWidget {
-  // final List iconList = [];
-  List list = [];
-  contentList({
-    Key key,
-    @required this.list,
-}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    // 下划线widget预定义以供复用。
-    // return Scaffold(
-    //     body: SafeArea(
-    //       child: ListView(
-    //         shrinkWrap: true,
-    //         // physics: const AlwaysScrollableScrollPhysics(),
-    //         padding: const EdgeInsets.all(10.0),
-    //         children: _listView(context),
-    //       ),
-    //     ),
-    // );
-    return Container(
-      child: ListView(
-        shrinkWrap: true,
-        // physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(10.0),
-        children: [
-          channelDetailTop(
-              coverImg: 'https://pcdn.flutterchina.club/imgs/book.png',
-              title: '栏目名字',
-              descriptiton: 'descriptiton'
-          ),
-          for (final item in list)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                  alignment: Alignment.centerLeft, //卡片内文字居中
-                  height: 50.0,
-                  // margin: EdgeInsets.only(top:10.0, left: 10.0), //容器外填充
-                  child:  FlatButton(
-                    child: Text(
-                      item['title'],
-                      style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: () {
-                      print(item['id']);
-                    },
-                  )
-              ),
-            ),
-          // _listView(context),
-        ]
-      ),
-    );
-  }
-
-  List<Widget> _listView(context){
-    return list.map((f)=>
-        Wrap(
-          alignment: WrapAlignment.start,
-          // direction: Axis.horizontal,
-          children: [
-            // Container(
-            //   height: 30.0,
-            //   margin: EdgeInsets.only(top:10.0, left: 10.0), //容器外填充
-            //   child:  Text('${f['id']}',
-            //       style: TextStyle(color: Colors.black,fontSize: 16)),
-            // ),
-            Container(
-              child: Container(
-                  alignment: Alignment.centerLeft, //卡片内文字居中
-                  height: 50.0,
-                  // margin: EdgeInsets.only(top:10.0, left: 10.0), //容器外填充
-                  child:  FlatButton(
-                    child: Text(
-                      f['title'],
-                      style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: () {
-                      print(f['id']);
-                    },
-                  )
-              ),
-            ),
-            Divider(color: Colors.black26,)
-          ],
-        ),
-    ).toList();
-  }
-}
