@@ -77,8 +77,7 @@ class _HttpTestRouteState extends State<HttpTestRoute> {
       // _text = json.decode(response.data);
       map = json.decode(response.toString());
       // map = jsonDecode(response.data.toString());
-      print(map['data']['title']);
-
+      // print(map['data']['title']);
       _text = _text.replaceAll('/u/cms', "http://www.mhxy5kw.com/u/cms");
       return map;
     } catch (e) {
