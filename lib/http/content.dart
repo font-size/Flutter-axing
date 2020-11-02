@@ -18,7 +18,7 @@ class HttpTestRoute extends StatefulWidget {
 
 class _HttpTestRouteState extends State<HttpTestRoute> {
   String _text = "";
-  String title= "title";
+  String _title= "";
   Map <String, dynamic> map;
   @override
   void initState() {
@@ -26,21 +26,22 @@ class _HttpTestRouteState extends State<HttpTestRoute> {
     getHttpContent().then((val){
       setState(() {
         _text = val['data']['txt'];
-        title = val['data']['title'];
+        _text = _text.replaceAll('/u/cms', "http://www.mhxy5kw.com/u/cms");
+        _title = val['data']['title'];
       });
     });
   }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: title,
+        title: 'detail',
         home: Scaffold(
             appBar: AppBar(
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              title: Text(title),
+              title: Text("文章详情"),
             ),
             body:  ConstrainedBox(
                 constraints: BoxConstraints.expand(),
@@ -50,19 +51,39 @@ class _HttpTestRouteState extends State<HttpTestRoute> {
                       Container(
                           width: MediaQuery.of(context).size.width-50.0,
                           // color: Colors.black12,
-                          child: Html(
-                            data: """
-                              ${_text}
-                            """,
-                            // onImageTap: (src) {
-                            //   print(src);
-                            // },
-                          )
+                          child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(top: 10.0), //容器外填充
+                                  alignment: Alignment.centerLeft, //卡片内文字居中
+                                  // child: Wrap(
+                                  //   children: [
+                                  //     Text("$_title" * 5, style: TextStyle(color: Colors.black, fontSize: 40.0),)
+                                  //   ],
+                                  // ),
+                                  child:  Text("$_title", style: TextStyle(color: Colors.black, fontSize: 40.0),)
+                                ),
+                                Container(
+                                    // margin: EdgeInsets.only(right: 10.0, left: 10.0), //容器外填充
+                                    child: Divider()
+                                ),
+                                Html(data: """
+                                   ${_text} 
+                                """),
+                              ],
+                          ),
                       )
                     ],
                   ),
                 ),
-              )
+              ),
+          floatingActionButton: new FloatingActionButton(
+          onPressed: () =>{
+            print("upupup!")
+          },
+          tooltip: 'up',
+          child: new Icon(Icons.arrow_upward),
+        ), // This trailing comma makes auto-formatting nicer fo
           // home: homeTop.myApp(),
         )
     );
@@ -77,8 +98,7 @@ class _HttpTestRouteState extends State<HttpTestRoute> {
       // _text = json.decode(response.data);
       map = json.decode(response.toString());
       // map = jsonDecode(response.data.toString());
-      // print(map['data']['title']);
-      _text = _text.replaceAll('/u/cms', "http://www.mhxy5kw.com/u/cms");
+      print(_text);
       return map;
     } catch (e) {
       print(e);
