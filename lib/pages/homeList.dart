@@ -1,22 +1,23 @@
 // lesson list
 import 'package:flutter/material.dart';
-import 'package:axing/pages/channelDetail.dart' as channelDetail;
+import 'package:axing/http/channel.dart' as channelDetail;
+import 'package:axing/http/channel2.dart' as channelDetail2;
 
 class myLesson extends StatelessWidget {
   // final List iconList = [];
   final List lessonList = [{
     'name': 'flutter组件大全',
-    'id': '1',
+    'id': 1747,
     'url':'route1'
     },
     {
       'name': 'flutter介绍',
-      'id': '2',
+      'id': 1752,
       'url':'route2'
     } ,
     {
       'name': 'Dart基础',
-      'id': '3',
+      'id': 1752,
       'url':'route3'
     }];
 
@@ -57,7 +58,7 @@ class myLesson extends StatelessWidget {
                   //导航到新路由
                   Navigator.push( context,
                       MaterialPageRoute(builder: (context) {
-                        return channelDetail.myApp(channelId: f['id'],);
+                        return channelDetail2.ChannelDetailRoute(channelId: f['id'],);
                       }));
                 },
               //   // style: Theme.of(context).textTheme.headline5),

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:axing/pages/myDrawer.dart';
 import 'package:axing/pages/homeTop.dart' as homeTop;
 import 'package:axing/pages/homeList.dart' as homeList;
-import 'package:axing/http/content.dart' as httptest;
 
 void main() {
+  // Global.init().then((e) => runApp(MyApp()));
   runApp(MyApp());
 }
 

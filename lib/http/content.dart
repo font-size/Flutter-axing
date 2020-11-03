@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:axing/common/Global.dart' as Global;
 
 class HttpTestRoute extends StatefulWidget {
-  String contentId;
+  int  contentId;
 
   HttpTestRoute({
     Key key,
@@ -93,8 +94,8 @@ class _HttpTestRouteState extends State<HttpTestRoute> {
 
   Future getHttpContent() async {
     try {
-      print('http://www.mhxy5kw.com/content/${widget.contentId}');
-      Response response = await Dio().get("http://www.mhxy5kw.com/content/${widget.contentId}");
+      print('${Global.contentDetailApi}${widget.contentId}');
+      Response response = await Dio().get("${Global.contentDetailApi}${widget.contentId}");
       // _text = json.decode(response.data);
       map = json.decode(response.toString());
       // map = jsonDecode(response.data.toString());
