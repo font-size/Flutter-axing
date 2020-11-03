@@ -51,7 +51,6 @@ class _channelDetail extends State<channelDetail> {
   String descriptiton = 'descriptiton';
   String _defaultImg = "https://pcdn.flutterchina.club/imgs/book.png";
   List _list = []; // 稿件list数据
-  bool hasList = false;
   Widget body = Text('no data');
   Widget nobody = Text('no data');
   Map<String, dynamic> map; // 栏目详情map
@@ -66,75 +65,102 @@ class _channelDetail extends State<channelDetail> {
         descriptiton =
             descriptiton.replaceAll('/u/cms', "http://www.mhxy5kw.com/u/cms");
         title = val['data']['name'];
-        coverImg = val['data']['channelExt']['resourcesSpaceData']['url']
-            ?? _defaultImg;
+        coverImg = val['data']['channelExt']['resourcesSpaceData'] != null ? val['data']['channelExt']['resourcesSpaceData']['url'] : _defaultImg;
         coverImg =
             coverImg.replaceAll('/u/cms', "http://www.mhxy5kw.com/u/cms");
       });
     });
     getHttpContentList().then((val){
       setState(() {
-        hasList = true;
         _list = val['data'];
       });
     });
   }
 
   Widget build(BuildContext context) {
-    if(hasList) {
-      Widget body = ListView.builder(
-          itemBuilder: (BuildContext context, int index) {
-            return contentItem(title: _list[index]['title'], id: _list[index]['id']);
-          }
-      );
-    }
-    return Container(
-      margin: EdgeInsets.only(top: 20.0, right: 25.0, left: 10.0), //容器外填充
-      constraints: BoxConstraints.tightFor(height: 100.0), //卡片大小
-      child: Column(
-          // shrinkWrap: true,
-          // physics: const AlwaysScrollableScrollPhysics(),
-          // padding: const EdgeInsets.all(10.0),
-          children: [
-            Row(
-              children: [
-                if (coverImg != null)
-                  Image.network(coverImg ?? _defaultImg,
-                      // height: 150.0,
-                      width: 100.0,
-                      fit: BoxFit.contain),
-                Column(
-                  children: [
-                    Text(
-                      title ?? '',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      descriptiton ?? '',
-                      style: TextStyle(fontSize: 18, color: Colors.black12),
-                    )
-                  ],
-                )
-              ],
-            ),
-                    // body
-            ListView.builder(
-                itemCount: _list.length,
-                itemExtent: 50.0, //强制高度为50.0
-                itemBuilder: (BuildContext context, int index) {
-                  return contentItem(title: _list[index]['title'], id: _list[index]['id']);
-                }
-            )
-            // hasList?? body,
-            // contentItem(title: '111', id: 111,)
-            // _listView(context),
-          ]),
+    // return Flex(
+    //   direction: Axis.horizontal,
+    //   children: [
+    //       // firstContentItem(coverImg: coverImg, channelNanme: title, descriptiton: descriptiton),
+    //       ListView.builder(
+    //         itemCount: _list.length,
+    //         itemExtent: 50.0, //强制高度为50.0
+    //         itemBuilder: (BuildContext context, int index) {
+    //           return contentItem(title: _list[index]['title'], id: _list[index]['id']);
+    //       }
+    //       )
+    //   ],
+    // );
+    return ListView(
+      children: [
+          firstContentItem(coverImg: coverImg, channelNanme: title, descriptiton: descriptiton),
+          for (final item in _list)
+            contentItem(title: item['title'], id: item['id']),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 16),
+            //   child: contentItem(title: item['title'], id: item['id']),
+            // ),
+      ],
     );
+    // return  ListView.builder(
+    //     itemCount: _list.length,
+    //     itemExtent: 50.0, //强制高度为50.0
+    //     itemBuilder: (BuildContext context, int index) {
+    //       return contentItem(title: _list[index]['title'], id: _list[index]['id']);
+    //       // if(index == 0) {
+    //       //   return firstContentItem(title: _list[index]['title'], id: _list[index]['id'], coverImg: coverImg, channelNanme: title, descriptiton: descriptiton);
+    //       // } else {
+    //       //   return contentItem(title: _list[index]['title'], id: _list[index]['id']);
+    //       // }
+    //     }
+    // );
+    // return Container(
+    //   margin: EdgeInsets.only(top: 20.0, right: 25.0, left: 10.0), //容器外填充
+    //   constraints: BoxConstraints.tightFor(height: 100.0), //卡片大小
+    //   child: Column(
+    //       // shrinkWrap: true,
+    //       // physics: const AlwaysScrollableScrollPhysics(),
+    //       // padding: const EdgeInsets.all(10.0),
+    //       children: [
+    //         Row(
+    //           children: [
+    //             if (coverImg != null)
+    //               Image.network(coverImg ?? _defaultImg,
+    //                   // height: 150.0,
+    //                   width: 100.0,
+    //                   fit: BoxFit.contain),
+    //             Column(
+    //               children: [
+    //                 Text(
+    //                   title ?? '',
+    //                   style: TextStyle(fontSize: 20),
+    //                 ),
+    //                 Text(
+    //                   descriptiton ?? '',
+    //                   style: TextStyle(fontSize: 18, color: Colors.black12),
+    //                 )
+    //               ],
+    //             )
+    //           ],
+    //         ),
+    //                 // body
+    //         ListView.builder(
+    //             itemCount: _list.length,
+    //             itemExtent: 50.0, //强制高度为50.0
+    //             itemBuilder: (BuildContext context, int index) {
+    //               return contentItem(title: _list[index]['title'], id: _list[index]['id']);
+    //             }
+    //         )
+    //         // hasList?? body,
+    //         // contentItem(title: '111', id: 111,)
+    //         // _listView(context),
+    //       ]),
+    // );
   }
 
   Future getHttpContent() async {
     try {
-      print('${Global.channelDetailApi}?id=${widget.channelId}');
+      print(widget.channelId);
       Response response =
           await Dio().get("${Global.channelDetailApi}?id=${widget.channelId}");
       // _text = json.decode(response.data);
@@ -152,8 +178,8 @@ class _channelDetail extends State<channelDetail> {
 
   Future getHttpContentList() async {
     try {
-      print('${Global.contentListApi}?channelId=${widget.channelId}');
-      Response response = await Dio().get("${Global.contentListApi}?channelId=${widget.channelId}");
+      print('${Global.contentListApi}?channelIds=${widget.channelId}');
+      Response response = await Dio().get("${Global.contentListApi}?channelIds=${widget.channelId}");
       // _text = json.decode(response.data);
       maplist = json.decode(response.toString());
       print(maplist['data'][0]['title']);
@@ -166,14 +192,6 @@ class _channelDetail extends State<channelDetail> {
       //   _loading = false;
       // });
     }
-  }
-
-  Widget getItem () {
-    return  ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return contentItem(title: _list[index]['title'], id: _list[index]['id']);
-        }
-    );
   }
 }
 
@@ -191,15 +209,16 @@ class contentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-          alignment: Alignment.centerLeft, //卡片内文字居中
+    return
+      Container(
+          alignment: Alignment.centerLeft,
           height: 50.0,
-          // margin: EdgeInsets.only(top:10.0, left: 10.0), //容器外填充
+          // margin: EdgeInsets.only(left: 10.0), //容器外填充
           child: FlatButton(
             child: Text(
               title?? '',
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
@@ -213,8 +232,110 @@ class contentItem extends StatelessWidget {
                     );
                   }));
             },
-          )),
+          )
+      );
+  }
+}
+
+class firstContentItem extends StatelessWidget {
+  String coverImg = "https://pcdn.flutterchina.club/imgs/book.png";
+  String channelNanme = "";
+  String descriptiton = "";
+  String title;
+  int id ;
+
+  firstContentItem({
+    Key key,
+    this.title,
+    this.coverImg,
+    this.channelNanme,
+    this.descriptiton,
+    this.id,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return  Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 20),
+      child:  Row(
+          children: [
+            if (coverImg != null)
+              Image.network(coverImg,
+                  // height: 150.0,
+                  width: 100.0,
+                  fit: BoxFit.contain),
+            Padding(
+              padding: const EdgeInsets.symmetric( horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    channelNanme,
+                    style: TextStyle(fontSize: 20),
+                    textAlign: TextAlign.left,
+                  ),
+                  Text(
+                    descriptiton,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 18, color: Colors.black12),
+                  )
+                ],
+              ),
+            )
+
+          ]
+      ),
     );
+    // return  Column(
+    //   // shrinkWrap: true,
+    //   // physics: const AlwaysScrollableScrollPhysics(),
+    //   // padding: const EdgeInsets.all(10.0),
+    //     children: [
+    //       Row(
+    //           children: [
+    //             if (coverImg != null)
+    //               Image.network(coverImg,
+    //                   // height: 150.0,
+    //                   width: 100.0,
+    //                   fit: BoxFit.contain),
+    //             Column(
+    //               children: [
+    //                 Text(
+    //                   title ?? '',
+    //                   style: TextStyle(fontSize: 20),
+    //                 ),
+    //                 Text(
+    //                   descriptiton ?? '',
+    //                   style: TextStyle(fontSize: 18, color: Colors.black12),
+    //                 )
+    //               ],
+    //             )
+    //           ]
+    //       ),
+    //       Container(
+    //           alignment: Alignment.centerLeft,
+    //           height: 50.0,
+    //           // margin: EdgeInsets.only(top:10.0, left: 10.0), //容器外填充
+    //           child: FlatButton(
+    //             child: Text(
+    //               title?? '',
+    //               style: TextStyle(
+    //                   color: Colors.black,
+    //                   fontSize: 16,
+    //                   fontWeight: FontWeight.bold),
+    //             ),
+    //             onPressed: () {
+    //               Navigator.push(context,
+    //                   MaterialPageRoute(builder: (context) {
+    //                     return httptest.HttpTestRoute(
+    //                       contentId: id,
+    //                     );
+    //                   }));
+    //             },
+    //           )),
+    //     ]);
+
   }
 }
 
