@@ -1,6 +1,20 @@
 import './ChartFlutterBean.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+
+
+getChartData() {
+  Widget chart =  new charts.TimeSeriesChart(
+    ChartFlutterBean.createSampleData0(),
+    animate: false,
+    // Optionally pass in a [DateTimeFactory] used by the chart. The factory
+    // should create the same type of [DateTime] as the data provided. If none
+    // specified, the default creates local date time.
+    dateTimeFactory: new charts.LocalDateTimeFactory(),
+  );
+  return chart;
+}
+
 class ChartsFlutter extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -68,6 +82,8 @@ class ChartsFlutterState extends State<ChartsFlutter> {
       ),
     );
   }
+
+
 
   void loadChartData() async {
     //1.折线图
