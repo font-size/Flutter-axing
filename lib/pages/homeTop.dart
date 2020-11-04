@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:weather/weather.dart';
 import 'package:axing/common/Global.dart' as Global;
-import 'package:axing/charts/temChart.dart' as temChart;
+// import 'package:axing/charts/temChart.dart' as temChart;
+import 'package:axing/charts/charts.dart' as charts;
 
 class myApp extends StatefulWidget {
   myApp({
@@ -54,7 +55,7 @@ class _myApp extends State<myApp>{
 
     return Container(
       margin: EdgeInsets.only(top: 30.0, right: 25.0, left: 25.0), //容器外填充
-      constraints: BoxConstraints.tightFor(height: 200.0), //卡片大小
+      constraints: BoxConstraints.tightFor(height: 310.0), //卡片大小
       decoration: BoxDecoration(//背景装饰
           gradient: RadialGradient( //背景径向渐变
               colors: [Colors.white, Colors.white],
@@ -95,6 +96,11 @@ class _myApp extends State<myApp>{
             )
           ),
           // Text(weatherDescription?? "")
+          Container(
+            constraints: BoxConstraints.tightFor(height: 180.0), //卡片大小
+            margin: EdgeInsets.only(right: 20.0, left: 20.0), //容器外填充
+            child: charts.getChartData() ,
+          ),
         ],
       )
     );
