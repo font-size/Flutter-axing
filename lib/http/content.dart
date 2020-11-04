@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:axing/common/Global.dart' as Global;
+import 'package:weather/weather.dart';
 
 class HttpTestRoute extends StatefulWidget {
   int  contentId;
@@ -21,6 +22,7 @@ class _HttpTestRouteState extends State<HttpTestRoute> {
   String _text = "";
   String _title= "";
   Map <String, dynamic> map;
+
   @override
   void initState() {
     super.initState();
@@ -79,8 +81,10 @@ class _HttpTestRouteState extends State<HttpTestRoute> {
                 ),
               ),
           floatingActionButton: new FloatingActionButton(
-          onPressed: () =>{
-            print("upupup!")
+          onPressed: () {
+            // getWeigth().then((val){
+            //   print(val);
+            // });
           },
           tooltip: 'up',
           child: new Icon(Icons.arrow_upward),
@@ -109,4 +113,5 @@ class _HttpTestRouteState extends State<HttpTestRoute> {
       // });
     }
   }
+
 }

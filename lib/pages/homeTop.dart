@@ -1,13 +1,22 @@
 // weath widget
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:weather/weather.dart';
+import 'package:axing/common/Global.dart' as Global;
 
 class myApp extends StatelessWidget{
   String title = 'weatther';
+
+  WeatherFactory wf = new WeatherFactory(Global.mapKey, language: Language.CHINESE_SIMPLIFIED);
+  double lat = 55.0111;
+  double lon = 15.0569;
+  Map <String, dynamic> map;
 
   // homeTop(String title);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    getWeigth();
     return Container(
       margin: EdgeInsets.only(top: 30.0, right: 25.0, left: 25.0), //容器外填充
       constraints: BoxConstraints.tightFor(height: 200.0), //卡片大小
@@ -32,5 +41,18 @@ class myApp extends StatelessWidget{
         title, style: TextStyle(color: Colors.white, fontSize: 40.0),
       ),
     );
+  }
+
+  Future getWeigth() async {
+    try {
+      print("$lat $lon");
+      Weather w = await wf.currentWeatherByLocation(lat, lon);
+      // map = json.decode(w.toString());
+      print(w);
+      return w;
+    } catch(e) {
+      print(e);
+    }
+
   }
 }
