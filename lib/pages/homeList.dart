@@ -16,6 +16,21 @@ class myLesson extends StatelessWidget {
       'url':'route2'
     } ,
     {
+      'name': 'flutter介绍',
+      'id': 2303,
+      'url':'route2'
+    } ,
+    {
+      'name': 'flutter介绍',
+      'id': 2303,
+      'url':'route2'
+    } ,
+    {
+      'name': 'flutter介绍',
+      'id': 2303,
+      'url':'route2'
+    } ,
+    {
       'name': 'Dart基础',
       'id': 2301,
       'url':'route3'
@@ -27,6 +42,7 @@ class myLesson extends StatelessWidget {
     return ListView(
       shrinkWrap: true,
       padding: const EdgeInsets.all(25.0),
+      physics: const NeverScrollableScrollPhysics(),
       children: _listView(context),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:axing/pages/myDrawer.dart';
 import 'package:axing/pages/homeTop.dart' as homeTop;
 import 'package:axing/pages/homeList.dart' as homeList;
+import 'package:axing/charts/charts.dart' as charts;
 
 void main() {
   // Global.init().then((e) => runApp(MyApp()));
@@ -78,18 +79,20 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Container(
-        color: Colors.black12,
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        // child:  httptest.HttpTestRoute(),
-        child: Column(
-          children: <Widget>[
-            homeTop.myApp(),
-            homeList.myLesson(),
-          ],
-        ),
-      ),
+      body: charts.ChartsFlutter(),
+      // body: Container(
+      //   color: Colors.black12,
+      //   // Center is a layout widget. It takes a single child and positions it
+      //   // in the middle of the parent.
+      //   // child:  httptest.HttpTestRoute(),
+      //   child: ListView(
+      //     children: <Widget>[
+      //       homeTop.myApp(),
+      //       charts.ChartsFlutter(),
+      //       homeList.myLesson(),
+      //     ],
+      //   ),
+      // ),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: _incrementCounter,
       //   tooltip: 'Increment',
