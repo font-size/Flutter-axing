@@ -8,6 +8,7 @@ import 'package:axing/echarts/charts-line.dart' as echarts;
 import 'package:axing/echarts/charts-oneline.dart' as decharts;
 
 class myApp extends StatefulWidget {
+
   myApp({
     Key key,
   }) : super(key: key);
@@ -20,6 +21,10 @@ class _myApp extends State<myApp>{
   String title = 'weatther';
 
   WeatherFactory wf = new WeatherFactory(Global.mapKey, language: Language.CHINESE_SIMPLIFIED);
+
+  List<Weather> forecast = [];
+  List<String> wlist = [];
+
   double lat = 31.22;
   double lon = 121.46;
   double celsius;
@@ -37,7 +42,7 @@ class _myApp extends State<myApp>{
   @override
   void initState() {
     super.initState();
-    getWeigth().then((w){
+    getWeather().then((w){
       this.setState(() {
         celsius = w.temperature.celsius;
         weatherDescription = w.weatherDescription;
@@ -47,6 +52,17 @@ class _myApp extends State<myApp>{
         location = w.areaName;
         country = w.country;
         cel =  w.temperature.celsius;
+      });
+      print(location);
+    });
+
+    getFiveWeather().then((fw){
+      this.setState(() {
+        print(fw.length);
+        for(final item in fw) {
+          wlist.add(item.temperature.celsius.toStringAsFixed(1));
+          // print(item.temperature.celsius);
+        }
       });
       print(location);
     });
@@ -112,13 +128,25 @@ class _myApp extends State<myApp>{
       )
     );
   }
-
-  Future getWeigth() async {
+  Future getFiveWeather() async {
     try {
-      print("$lat $lon");
+      print("$lat $lon getFiveWeigth");
+      forecast = await wf.fiveDayForecastByLocation(lat, lon);
+      // print(forecast[0].);
+      return forecast;
+    } catch(e) {
+      print(e);
+    }
+
+  }
+
+  Future getWeather() async {
+    try {
+      print("$lat $lon getWeigth");
       Weather w = await wf.currentWeatherByLocation(lat, lon);
+      // print(w.);
       // map = json.decode(w.toString());
-      // double nn = w.temperature.celsius.roundToDouble();
+      // double nn = w.;
       // String na = w.country;
       return w;
     } catch(e) {
