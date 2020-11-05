@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:axing/pages/myDrawer.dart';
 import 'package:axing/pages/homeTop.dart' as homeTop;
 import 'package:axing/pages/homeList.dart' as homeList;
-
+import 'package:axing/echarts/charts-line.dart' as echarts;
 
 void main() {
   // Global.init().then((e) => runApp(MyApp()));
@@ -89,6 +89,9 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             homeTop.myApp(),
             homeList.myLesson(),
+            // Container(
+            //   child: echarts.MyHomePage(),
+            // )
           ],
         ),
       ),
