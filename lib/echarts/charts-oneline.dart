@@ -13,7 +13,9 @@ import 'package:number_display/number_display.dart';
 final display = createDisplay(decimal: 2);
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+  List<String> list1;
+  List<String> list2;
+  MyHomePage({Key key,  @required this.list1, @required this.list2}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -43,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
 
-    this.getData1();
+    // this.getData1();
   }
 
   @override
@@ -59,20 +61,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       xAxis: {
                           type: 'category',
                           boundaryGap: false,
-                          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                          data:  ${widget.list2},
                       },
                       yAxis: {
-                          type: 'value',
-                          axisLabel: {
-                              formatter: '{value} °C'
-                          }
+                         show: false
                       },
                       series: [
                        {  name: '最高气温',
                           type: 'line',
-                          data: ${_data1},
+                          data: ${widget.list1},
+                          itemStyle : { normal: {label : {show: true}}}
                       },
-                      
                       ],
                     }
                   ''',
