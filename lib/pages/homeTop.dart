@@ -28,8 +28,8 @@ class _myApp extends State<myApp> {
   List<String> wmlist = ['11', '21'];
   List<String> wnlist = ['6', '16'];
   List<String> demolist= ['6', '16','11', '21', '21', '15', '16'];
-  double lat = 31.22;
-  double lon = 121.46;
+  double lat = Global.lat;
+  double lon = Global.lon;
   double celsius;
   double maxCel;
   double minCel;
@@ -39,10 +39,11 @@ class _myApp extends State<myApp> {
   String country = "china2";
   double cel = 0;
   String defalutImg = "http://openweathermap.org/img/w/01n.png";
+  String currentTime = '';
 
   List<String> LongFiveWeatherDay = [];
   List<String> listDay = [];
-  List<List> LongFiveWeatherTemp = [[]];
+  List<List<int>> LongFiveWeatherTemp = [[]];
   List<String> LongFiveWeatherTempAvg = [];
   List<String> wdLsit = [];
   Map<String, dynamic> map;
@@ -60,6 +61,21 @@ class _myApp extends State<myApp> {
         location = w.areaName;
         country = w.country;
         cel = w.temperature.celsius;
+        currentTime = "${w.date.month}月${w.date.day}日${w.date.hour}时";
+      });
+    });
+    getFiveWeather().then((w) {
+      List<String> list1 = [];
+      List<String> list2= [];
+      this.setState(() {
+        for(var i = 0; i <w.length; i ++) {
+          if(i < 7) {
+            list1.add(w[i].temperature.celsius.toStringAsFixed(1));
+            list2.add(w[i].date.hour.toString());
+          }
+        }
+        this.wmlist = list1;
+        this.wnlist = list2;
       });
     });
   }
@@ -89,7 +105,13 @@ class _myApp extends State<myApp> {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 20.0, left: 20.0), //容器外填充
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(top: 20.0,left: 20.0), //容器外填充
+              child:   Text("$currentTime",
+                  style: TextStyle(color: Colors.orange, fontSize: 16.0)),
+            ),
+            Container(
+              margin: EdgeInsets.only( left: 20.0), //容器外填充
               child: Row(
                 children: [
                   Text("$location,",
@@ -120,24 +142,8 @@ class _myApp extends State<myApp> {
                   // margin: EdgeInsets.only(left: 20.0), //容器外填充
                   // child: charts.getChartData() ,
                   // child:  echarts.MyHomePage(),
-                  child: FutureBuilder(
-                    future: getFiveWeather(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      // 请求已结束
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasError) {
-                          // 请求失败，显示错误
-                          return Text("Error: ${snapshot.error}");
-                        } else {
-                          // 请求成功，显示数据
-                          return decharts.MyHomePage(
-                              list1: wmlist, list2: wnlist);
-                        }
-                      } else {
-                        return Text("");
-                      }
-                    },
-                  ),
+                  child: decharts.MyHomePage(
+                      list1: wmlist, list2: wnlist),
                   // child:  decharts.MyHomePage(list1: wmlist, list2: wnlist),
                 ),
             ),
@@ -151,7 +157,7 @@ class _myApp extends State<myApp> {
                 onPressed: () {
                   Navigator.push( context,
                       MaterialPageRoute(builder: (context) {
-                        return lecharts.MyApp(list1: LongFiveWeatherTempAvg, list2: listDay, days: wdLsit);
+                        return lecharts.MyApp();
                       }));
                 },
               ),
@@ -161,79 +167,8 @@ class _myApp extends State<myApp> {
   }
 
   Future getFiveWeather() async {
-    try {
-      print("$lat $lon getFiveWeigth");
-      List<String> list1 = [];
-      List<String> list2 = [];
-      List<String> list3 = [];
-      List<String> list4 = [];
-      String currentDay;
-      List<String> listDay = [];
-      List<int> empList= [];
-      forecast = await wf.fiveDayForecastByLocation(lat, lon);
-      // forecast[0].weatherDescription
-      for(final item in forecast) {
-        if(list3.length < 7) {
-          list3.add(item.temperature.celsius.toStringAsFixed(1));
-          list4.add(item.date.hour.toString());
-        }
-        if(listDay.length > 0) {
-
-          if(currentDay != "${item.date.month}月${item.date.day}日"){
-            listDay.add("${item.date.month}月${item.date.day}日");
-            LongFiveWeatherTemp.add(empList);
-            currentDay = "${item.date.month}月${item.date.day}日";
-            wdLsit.add("${item.weatherDescription}");
-            LongFiveWeatherTemp[listDay.length - 1].add(item.temperature.celsius.toInt());
-          } else {
-            LongFiveWeatherTemp[listDay.length - 1].add(item.temperature.celsius.toInt());
-          }
-        } else {
-          currentDay = "${item.date.month}月${item.date.day}日";
-          listDay.add("${item.date.month}月${item.date.day}日");
-          LongFiveWeatherTemp.add(empList);
-          wdLsit.add("${item.weatherDescription}");
-        }
-      }
-
-      for(var i = 0; i< LongFiveWeatherTemp.length; i++){
-        int allTemp = 0;
-        for(var l = 0; l > LongFiveWeatherTemp[i].length; l++){
-          allTemp += LongFiveWeatherTemp[i][l];
-        }
-        print(allTemp);
-        LongFiveWeatherTempAvg.add((allTemp/LongFiveWeatherTemp[i].length).toStringAsFixed(1));
-      }
-      print("alltrmp111111");
-      this.wmlist = list3;
-      this.wnlist = list4;
-
-      return forecast;
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  List getwmlist() {
-    getFiveWeather().then((fw) {
-      print(fw.length);
-      for (final item in fw) {
-        wmlist.add(item.tempMax.celsius.toStringAsFixed(1));
-        // print(item.temperature.celsius);
-        return wmlist;
-      }
-    });
-  }
-
-  List getwnlist() {
-    getFiveWeather().then((fw) {
-      print(fw.length);
-      for (final item in fw) {
-        wnlist.add(item.tempMin.celsius.toStringAsFixed(1));
-        // print(item.temperature.celsius);
-      }
-      return wnlist;
-    });
+    forecast = await wf.fiveDayForecastByLocation(lat, lon);
+    return forecast;
   }
 
   Future getWeather() async {

@@ -17,4 +17,5 @@ String channelDetailApi = 'http://www.mhxy5kw.com/channel/get'; // ?id=1747
 String contentListApi = 'http://www.mhxy5kw.com/content/list/'; // ?channelId=1747
 String channelListApi= 'http://www.mhxy5kw.com/channel/list/'; // ?parentId=1747
 String mapKey = "4ca890adeec614e47aab1aba763610ed";
-
+double lat = 31.22;
+double lon = 121.46;
