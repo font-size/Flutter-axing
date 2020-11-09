@@ -64,7 +64,7 @@ class _HttpTestRouteState extends State<HttpTestRoute> {
                                   //     Text("$_title" * 5, style: TextStyle(color: Colors.black, fontSize: 40.0),)
                                   //   ],
                                   // ),
-                                  child:  Text("$_title", style: TextStyle(color: Colors.black, fontSize: 40.0),)
+                                  child:  Text("$_title", style: TextStyle(color: Colors.black, fontSize: 25.0),)
                                 ),
                                 Container(
                                     // margin: EdgeInsets.only(right: 10.0, left: 10.0), //容器外填充

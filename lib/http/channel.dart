@@ -354,7 +354,7 @@ class channelDetailTop extends StatelessWidget{
     return Container(
       margin: EdgeInsets.only(top: 20.0, right: 25.0, left: 10.0), //容器外填充
       constraints: BoxConstraints.tightFor(height: 100.0), //卡片大小
-      child: Row(
+      child: Wrap(
         children: [
           if(coverImg != null)
             Image.network(

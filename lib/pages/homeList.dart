@@ -5,35 +5,30 @@ import 'package:axing/http/channel2.dart' as channelDetail2;
 
 class myLesson extends StatelessWidget {
   // final List iconList = [];
-  final List lessonList = [{
-    'name': 'flutter组件大全',
-    'id': 2301,
-    'url':'route1'
-    },
+  final List lessonList = [
     {
-      'name': 'flutter介绍',
-      'id': 2303,
-      'url':'route2'
-    } ,
-    {
-      'name': 'flutter介绍',
-      'id': 2303,
-      'url':'route2'
-    } ,
-    {
-      'name': 'flutter介绍',
-      'id': 2303,
-      'url':'route2'
-    } ,
-    {
-      'name': 'flutter介绍',
-      'id': 2303,
-      'url':'route2'
-    } ,
-    {
-      'name': 'Dart基础',
+      'name': 'Flutter精选文章',
       'id': 2301,
-      'url':'route3'
+      'coverImg': 'http://www.mhxy5kw.com/u/cms/www/202011/091652449phs.png',
+      'url':'route2'
+    } ,
+    {
+      'name': 'Flutter组件',
+      'id': 2304,
+      'coverImg': 'http://www.mhxy5kw.com/u/cms/www/202011/0916531611e3.png',
+      'url':'route2'
+    } ,
+    {
+      'name': 'Flutter最新资讯',
+      'id': 2303,
+      'coverImg': 'http://www.mhxy5kw.com/u/cms/www/202011/09165406ftfq.png',
+      'url':'route2'
+    } ,
+    {
+      'name': '个人文章',
+      'id': 2305,
+      'coverImg': 'http://www.mhxy5kw.com/u/cms/www/202011/09172411jdtz.jpg',
+      'url':'route2'
     }];
 
   @override
@@ -58,9 +53,10 @@ class myLesson extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 10.0), //容器外填充
-              child: FlutterLogo(
-                size: 40,
+            margin: EdgeInsets.only(left: 20.0), //容器外填充
+              child: Image.network(
+                f['coverImg'],
+                width: 50,
               )
             ),
             Container(

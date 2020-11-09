@@ -80,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Echarts Demon'),
+        title: Text('未来5天的天气'),
       ),
       backgroundColor: Colors.white,
       body: Container(

@@ -275,11 +275,15 @@ class firstContentItem extends StatelessWidget {
                     style: TextStyle(fontSize: 20),
                     textAlign: TextAlign.left,
                   ),
-                  Text(
-                    descriptiton,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 18, color: Colors.black12),
-                  )
+                  Wrap(
+                    children: [
+                      Text(
+                        descriptiton,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(fontSize: 18, color: Colors.black12),
+                      )
+                    ],
+                  ),
                 ],
               ),
             )

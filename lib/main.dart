@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:axing/pages/myDrawer.dart';
+import 'package:axing/pages/myDrawer.dart' as myDrawer;
 import 'package:axing/pages/homeTop.dart' as homeTop;
 import 'package:axing/pages/homeList.dart' as homeList;
 import 'package:axing/echarts/charts-line.dart' as echarts;
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: '首页'),
       // home: homeTop.myApp(),
     );
   }
@@ -78,7 +78,14 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.share),onPressed: (){},)
+        ],
       ),
+      drawer: Drawer(
+        child: myDrawer.MyDrawer(),
+      ),
+
       // body: charts.getChartData(),
       body: Container(
         color: Colors.black12,

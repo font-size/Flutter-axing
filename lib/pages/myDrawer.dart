@@ -65,14 +65,14 @@ class MyDrawer extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: ClipOval(
-                      child: Image.asset(
-                        "imgs/avatar.png",
+                      child: Image.network(
+                        "http://www.lichengblog.com/appdown/axing/ic_launcher.png",
                         width: 80,
                       ),
                     ),
                   ),
                   Text(
-                    "Wendux",
+                    "axing",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   )
                 ],
