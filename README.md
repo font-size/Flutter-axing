@@ -1,7 +1,10 @@
 # axing
 
-It is a flutter project here
-
+It is a flutter project.
+Show weather and read IT articles.
+<div align="center">
+<img src="http://www.lichengblog.com/appdown/axing/appdown.png"/>
+</div>
 ## Getting Started
 
 This project is a starting point for a Flutter application.

@@ -25,7 +25,7 @@ class _myApp extends State<myApp> {
       new WeatherFactory(Global.mapKey, language: Language.CHINESE_SIMPLIFIED);
 
   List<Weather> forecast = [];
-  List<String> wmlist = ['11', '21'];
+  List<String> wmlist = ['0', '0'];
   List<String> wnlist = ['6', '16'];
   List<String> demolist= ['6', '16','11', '21', '21', '15', '16'];
   double lat = Global.lat;
@@ -35,8 +35,8 @@ class _myApp extends State<myApp> {
   double minCel;
   String weatherDescription;
   String icon;
-  String location = "shanghai2";
-  String country = "china2";
+  String location = "";
+  String country = "";
   double cel = 0;
   String defalutImg = "http://openweathermap.org/img/w/01n.png";
   String currentTime = '';
@@ -157,7 +157,7 @@ class _myApp extends State<myApp> {
                 onPressed: () {
                   Navigator.push( context,
                       MaterialPageRoute(builder: (context) {
-                        return lecharts.MyApp();
+                        return lecharts.MyHomePage();
                       }));
                 },
               ),

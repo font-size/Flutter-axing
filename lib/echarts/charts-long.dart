@@ -15,55 +15,39 @@ import 'package:axing/common/Global.dart' as Global;
 final display = createDisplay(decimal: 2);
 
 class MyApp extends StatelessWidget {
-  List<String> list1;
-  List<String> list2;
-  List<String> days;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   MyApp(
-      {Key key,
-      @required this.list1,
-      @required this.list2,
-      @required this.days})
+      {Key key,})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-      title: 'five day weather',
-      home: Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            title: Text("未来5天天气详情"),
-          ),
-          body: MyHomePage(),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  WeatherFactory wf =
-  new WeatherFactory(Global.mapKey, language: Language.CHINESE_SIMPLIFIED);
 
-
-
-
-  MyHomePage({Key key}) : super(key: key);
-
+  MyHomePage({
+    Key key,
+  }) : super(key: key);
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   List<String>  _weatherList = [];
   List <String>  _LongFiveWeatherTempAvg = ['11', '22'];
   List<String>  _LongFiveWeatherDate = ['11-9', '11-10'];
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   WeatherFactory wf =
   new WeatherFactory(Global.mapKey, language: Language.CHINESE_SIMPLIFIED);
   double lat = Global.lat;
@@ -88,22 +72,18 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    // this.getFiveWeather().then((w) => {
-    //   this.setState(() {
-    //     this._weatherList = wdLsit;
-    //     this._LongFiveWeatherDate = listDay;
-    //     this._LongFiveWeatherTempAvg = LongFiveWeatherTempAvg;
-    //   })
-    // });
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      // margin: EdgeInsets.only(left: 20.0), //容器外填充
-      child: Container(
-        width: 800,
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        title: Text('Echarts Demon'),
+      ),
+      backgroundColor: Colors.white,
+      body: Container(
         child: FutureBuilder(
           future: getFiveWeather(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -124,23 +104,23 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+
   }
+
   Future getFiveWeather() async {
-      String currentDay;
+      String currentDay = '';
       int listLength = 0;
 
       forecast = await wf.fiveDayForecastByLocation(lat, lon);
-      // forecast[0].weatherDescription
-
       for(var i = 0; i <forecast.length; i ++) {
+        var itemItem = "${forecast[i].date.day}";
         if(listDay.length > 0) {
-          print("${forecast[i].date.month}月${forecast[i].date.day}日");
-          if(currentDay != "${forecast[i].date.month}月${forecast[i].date.day}日"){
-            listDay.add("${forecast[i].date.month}月${forecast[i].date.day}日");
+          if(currentDay != itemItem){
+            listDay.add(itemItem);
             List<int> empList= [];
             LongFiveWeatherTemp.add(empList);
             listLength += 1;
-            currentDay = "${forecast[i].date.month}月${forecast[i].date.day}日";
+            currentDay = itemItem;
             wdLsit.add("${forecast[i].weatherDescription}");
             LongFiveWeatherTemp[listLength].add(forecast[i].temperature.celsius.toInt());
           } else {
@@ -149,8 +129,8 @@ class _MyHomePageState extends State<MyHomePage> {
         } else {
           // 日期不同就在listDay新增日期，并且LongFiveWeatherTemp长度加1, 新增每日wdLsit天气描述
           // 设置当前日期currentDay
-          currentDay = "${forecast[i].date.month}月${forecast[i].date.day}日";
-          listDay.add("${forecast[i].date.month}月${forecast[i].date.day}日");
+          currentDay = itemItem;
+          listDay.add(itemItem);
           // LongFiveWeatherTemp.add(empList);
           wdLsit.add("${forecast[i].weatherDescription}");
         }
@@ -171,9 +151,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
       return forecast;
   }
+
 }
 
 class longEchart extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   List<String> dateList = [];
   List<String> weatherList = [];
 
@@ -182,46 +164,64 @@ class longEchart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    print(111);
+    print("dateList weatherList");
     print(dateList);
     print(weatherList);
-    return Container(
-      child: Echarts(
-        option: '''
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+        width: 800,
+        child: Echarts(
+          option: '''
               {
-                tooltip: {
-                    trigger: 'axis'
-                },
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
+                    axisLabel :{
+                       interval: 0,
+                       rotate:40  
+                    },
                     data: ${dateList},
                 },
                 yAxis: {
-                   show: false
+                  type: 'value',
+                  boundaryGap: [0, '100%']
                 },
                 series: [
                   {  name: '平均气温',
                     type: 'line',
+                    smooth: true,
+                    sampling: 'average',
                     data: ${weatherList},
+                   areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgb(255, 158, 68)'
+                        }, {
+                            offset: 1,
+                            color: 'rgb(255, 70, 131)'
+                        }])
+                    },
                     itemStyle : { normal: {label : {show: true}}}
                   },
                 ],
               }
             ''',
-      onMessage: (String message) {
-        Map<String, Object> messageAction = jsonDecode(message);
-        print(messageAction);
-        if (messageAction['type'] == 'select') {
-          // final item = weatherList[messageAction['payload']];
-          //   _scaffoldKey.currentState.showSnackBar(SnackBar(
-          //   content: Text(
-          //       item['name'].toString() + ': ' + display(item['value'])),
-          //   duration: Duration(seconds: 2),
-          // ));
-        }
-      },
-    ),
+          onMessage: (String message) {
+            Map<String, Object> messageAction = jsonDecode(message);
+            print(messageAction);
+            if (messageAction['type'] == 'select') {
+              final item = weatherList[messageAction['payload']];
+              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                content: Text(
+                  // item['name'].toString() + ': ' + display(item['value'])),
+                    item.toString() + ': ' + display(9)),
+                duration: Duration(seconds: 2),
+              ));
+            }
+          },
+        ),
+      )
     );
   }
 }
