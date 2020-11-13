@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:axing/http/channel.dart' as channelDetail;
 import 'package:axing/http/channel2.dart' as channelDetail2;
+import 'package:axing/http/webViewContent.dart' as webViewContent;
 
 class myLesson extends StatelessWidget {
   // final List iconList = [];
@@ -10,25 +11,31 @@ class myLesson extends StatelessWidget {
       'name': 'Flutter精选文章',
       'id': 2301,
       'coverImg': 'http://www.mhxy5kw.com/u/cms/www/202011/091652449phs.png',
-      'url':'route2'
+      'webView':'route2'
     } ,
     {
       'name': 'Flutter组件',
       'id': 2304,
       'coverImg': 'http://www.mhxy5kw.com/u/cms/www/202011/0916531611e3.png',
-      'url':'route2'
+      'webView':'route2'
     } ,
     {
       'name': 'Flutter最新资讯',
       'id': 2303,
       'coverImg': 'http://www.mhxy5kw.com/u/cms/www/202011/09165406ftfq.png',
-      'url':'route2'
+      'webView':'route2'
     } ,
     {
       'name': '个人文章',
       'id': 2305,
       'coverImg': 'http://www.mhxy5kw.com/u/cms/www/202011/09172411jdtz.jpg',
-      'url':'route2'
+      'webView':'route2'
+    },
+    {
+      'name': 'webView文章',
+      'id': 1,
+      'coverImg': 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2458696988,2288615185&fm=26&gp=0.jpg',
+      'webView':'webView'
     }];
 
   @override
@@ -57,6 +64,7 @@ class myLesson extends StatelessWidget {
               child: Image.network(
                 f['coverImg'],
                 width: 50,
+                fit: BoxFit.fill,
               )
             ),
             Container(
@@ -68,10 +76,17 @@ class myLesson extends StatelessWidget {
                 ),
                 onPressed: () {
                   //导航到新路由
-                  Navigator.push( context,
-                      MaterialPageRoute(builder: (context) {
-                        return channelDetail2.ChannelDetailRoute(channelId: f['id'],);
-                      }));
+                  if(f['webView'] == 'webView') {
+                    Navigator.push( context,
+                        MaterialPageRoute(builder: (context) {
+                          return webViewContent.HttpTestRoute(   webViewContentUrl: 'http://www.lichengblog.com/kpc1j/275.jhtml');
+                        }));
+                  } else {
+                    Navigator.push( context,
+                        MaterialPageRoute(builder: (context) {
+                          return channelDetail2.ChannelDetailRoute(channelId: f['id'],);
+                        }));
+                  }
                 },
               //   // style: Theme.of(context).textTheme.headline5),
             )

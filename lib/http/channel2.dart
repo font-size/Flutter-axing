@@ -5,6 +5,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'package:axing/http/content.dart' as httptest;
+import 'package:axing/http/webViewContent.dart' as webViewContent;
 import 'package:axing/common/Global.dart' as Global;
 
 class ChannelDetailRoute extends StatelessWidget {
@@ -100,62 +101,9 @@ class _channelDetail extends State<channelDetail> {
             //   padding: const EdgeInsets.symmetric(horizontal: 16),
             //   child: contentItem(title: item['title'], id: item['id']),
             // ),
+
       ],
     );
-    // return  ListView.builder(
-    //     itemCount: _list.length,
-    //     itemExtent: 50.0, //强制高度为50.0
-    //     itemBuilder: (BuildContext context, int index) {
-    //       return contentItem(title: _list[index]['title'], id: _list[index]['id']);
-    //       // if(index == 0) {
-    //       //   return firstContentItem(title: _list[index]['title'], id: _list[index]['id'], coverImg: coverImg, channelNanme: title, descriptiton: descriptiton);
-    //       // } else {
-    //       //   return contentItem(title: _list[index]['title'], id: _list[index]['id']);
-    //       // }
-    //     }
-    // );
-    // return Container(
-    //   margin: EdgeInsets.only(top: 20.0, right: 25.0, left: 10.0), //容器外填充
-    //   constraints: BoxConstraints.tightFor(height: 100.0), //卡片大小
-    //   child: Column(
-    //       // shrinkWrap: true,
-    //       // physics: const AlwaysScrollableScrollPhysics(),
-    //       // padding: const EdgeInsets.all(10.0),
-    //       children: [
-    //         Row(
-    //           children: [
-    //             if (coverImg != null)
-    //               Image.network(coverImg ?? _defaultImg,
-    //                   // height: 150.0,
-    //                   width: 100.0,
-    //                   fit: BoxFit.contain),
-    //             Column(
-    //               children: [
-    //                 Text(
-    //                   title ?? '',
-    //                   style: TextStyle(fontSize: 20),
-    //                 ),
-    //                 Text(
-    //                   descriptiton ?? '',
-    //                   style: TextStyle(fontSize: 18, color: Colors.black12),
-    //                 )
-    //               ],
-    //             )
-    //           ],
-    //         ),
-    //                 // body
-    //         ListView.builder(
-    //             itemCount: _list.length,
-    //             itemExtent: 50.0, //强制高度为50.0
-    //             itemBuilder: (BuildContext context, int index) {
-    //               return contentItem(title: _list[index]['title'], id: _list[index]['id']);
-    //             }
-    //         )
-    //         // hasList?? body,
-    //         // contentItem(title: '111', id: 111,)
-    //         // _listView(context),
-    //       ]),
-    // );
   }
 
   Future getHttpContent() async {
@@ -199,11 +147,13 @@ class _channelDetail extends State<channelDetail> {
 class contentItem extends StatelessWidget {
   String title;
   int id ;
+  bool type = false;
 
   contentItem({
     Key key,
     this.title,
     this.id,
+    this.type,
   }) : super(key: key);
 
   @override
@@ -225,12 +175,21 @@ class contentItem extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) {
-                    return httptest.HttpTestRoute(
-                      contentId: id,
-                    );
-                  }));
+              if(type) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) {
+                      return webViewContent.HttpTestRoute(
+                        webViewContentUrl: 'http://www.lichengblog.com/kpc1j/275.jhtml',
+                      );
+                    }));
+              } else {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) {
+                      return httptest.HttpTestRoute(
+                        contentId: id,
+                      );
+                    }));
+              }
             },
           )
       );

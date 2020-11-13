@@ -31,6 +31,7 @@ dependencies:
   weather: ^1.2.3
   flutter_echarts: ^1.4.0
   number_display: ^2.1.2
+  webview_flutter: any
 
 dev_dependencies:
   flutter_test:
