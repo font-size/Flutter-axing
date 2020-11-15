@@ -49,6 +49,7 @@ class channelDetail extends StatefulWidget {
 class _channelDetail extends State<channelDetail> {
   String coverImg;
   String title = 'title';
+  bool webView = false;
   String descriptiton = 'descriptiton';
   String _defaultImg = "https://pcdn.flutterchina.club/imgs/book.png";
   List _list = []; // 稿件list数据
@@ -65,6 +66,9 @@ class _channelDetail extends State<channelDetail> {
         descriptiton = val['data']['description'];
         descriptiton =
             descriptiton.replaceAll('/u/cms', "http://www.mhxy5kw.com/u/cms");
+        if(descriptiton == 'webView') {
+          webView = true;
+        }
         title = val['data']['name'];
         coverImg = val['data']['channelExt']['resourcesSpaceData'] != null ? val['data']['channelExt']['resourcesSpaceData']['url'] : _defaultImg;
         coverImg =
@@ -96,7 +100,7 @@ class _channelDetail extends State<channelDetail> {
       children: [
           firstContentItem(coverImg: coverImg, channelNanme: title, descriptiton: descriptiton),
           for (final item in _list)
-            contentItem(title: item['title'], id: item['id']),
+            contentItem(title: item['title'], id: item['id'], url: item['url'], webView: webView),
             // Padding(
             //   padding: const EdgeInsets.symmetric(horizontal: 16),
             //   child: contentItem(title: item['title'], id: item['id']),
@@ -147,13 +151,14 @@ class _channelDetail extends State<channelDetail> {
 class contentItem extends StatelessWidget {
   String title;
   int id ;
-  bool type = false;
-
+  String url;
+  bool webView = false;
   contentItem({
     Key key,
     this.title,
     this.id,
-    this.type,
+    this.url,
+    this.webView
   }) : super(key: key);
 
   @override
@@ -175,11 +180,11 @@ class contentItem extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             onPressed: () {
-              if(type) {
+              if(webView) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) {
                       return webViewContent.HttpTestRoute(
-                        webViewContentUrl: 'http://www.lichengblog.com/kpc1j/275.jhtml',
+                        webViewContentUrl: '${url}',
                       );
                     }));
               } else {
@@ -250,55 +255,6 @@ class firstContentItem extends StatelessWidget {
           ]
       ),
     );
-    // return  Column(
-    //   // shrinkWrap: true,
-    //   // physics: const AlwaysScrollableScrollPhysics(),
-    //   // padding: const EdgeInsets.all(10.0),
-    //     children: [
-    //       Row(
-    //           children: [
-    //             if (coverImg != null)
-    //               Image.network(coverImg,
-    //                   // height: 150.0,
-    //                   width: 100.0,
-    //                   fit: BoxFit.contain),
-    //             Column(
-    //               children: [
-    //                 Text(
-    //                   title ?? '',
-    //                   style: TextStyle(fontSize: 20),
-    //                 ),
-    //                 Text(
-    //                   descriptiton ?? '',
-    //                   style: TextStyle(fontSize: 18, color: Colors.black12),
-    //                 )
-    //               ],
-    //             )
-    //           ]
-    //       ),
-    //       Container(
-    //           alignment: Alignment.centerLeft,
-    //           height: 50.0,
-    //           // margin: EdgeInsets.only(top:10.0, left: 10.0), //容器外填充
-    //           child: FlatButton(
-    //             child: Text(
-    //               title?? '',
-    //               style: TextStyle(
-    //                   color: Colors.black,
-    //                   fontSize: 16,
-    //                   fontWeight: FontWeight.bold),
-    //             ),
-    //             onPressed: () {
-    //               Navigator.push(context,
-    //                   MaterialPageRoute(builder: (context) {
-    //                     return httptest.HttpTestRoute(
-    //                       contentId: id,
-    //                     );
-    //                   }));
-    //             },
-    //           )),
-    //     ]);
-
   }
 }
 

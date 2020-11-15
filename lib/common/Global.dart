@@ -11,7 +11,7 @@ const _themes = <MaterialColor>[
 
 String baseUrl = 'http://www.mhxy5kw.com';
 String replaceUrl = 'http://www.mhxy5kw.com/u/cms';
-
+bool webView = false;
 String contentDetailApi = 'http://www.mhxy5kw.com/content/'; // 12
 String channelDetailApi = 'http://www.mhxy5kw.com/channel/get'; // ?id=1747
 String contentListApi = 'http://www.mhxy5kw.com/content/list/'; // ?channelId=1747

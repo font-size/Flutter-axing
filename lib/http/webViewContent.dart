@@ -50,15 +50,6 @@ class _HttpTestRouteState extends State<HttpTestRoute> {
             constraints: BoxConstraints.expand(),
             child: webView(url: widget.webViewContentUrl),
           ),
-          floatingActionButton: new FloatingActionButton(
-            onPressed: () {
-              // getWeigth().then((val){
-              //   print(val);
-              // });
-            },
-            tooltip: 'up',
-            child: new Icon(Icons.arrow_upward),
-          ), // This trailing comma makes auto-formatting nicer fo
           // home: homeTop.myApp(),
         )
     );

@@ -32,6 +32,12 @@ class myLesson extends StatelessWidget {
       'webView':'route2'
     },
     {
+      'name': '外部文章',
+      'id': 2306,
+      'coverImg': 'http://www.mhxy5kw.com/u/cms/www/202011/152029148v21.png',
+      'webView':'route2'
+    },
+    {
       'name': 'webView文章',
       'id': 1,
       'coverImg': 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2458696988,2288615185&fm=26&gp=0.jpg',
